@@ -8,12 +8,14 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     [NonSerialized] public Vector2 InputVector;
+    float Hori;
+    float Vert;
 
     // Character Value
     [SerializeField] float MoveSpeed;
 
     // Components
-    Rigidbody2D rb;
+    [NonSerialized] public Rigidbody2D rb;
     SpriteRenderer sr;
     Animator anim;
 
@@ -27,6 +29,8 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         GameManager.Instance.Player = this;
+
+        EnemyController.Target = GameManager.Instance.Player.rb;
     }
 
 
@@ -73,6 +77,11 @@ public class PlayerController : MonoBehaviour
     void OnMove(InputValue Value)
     {
         InputVector = Value.Get<Vector2>();
+    }
+
+    void OnJump()
+    {
+
     }
 
     void UpdateAnimation()

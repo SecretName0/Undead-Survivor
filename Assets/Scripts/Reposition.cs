@@ -8,6 +8,13 @@ public class Reposition : MonoBehaviour
     Vector3 MyPos; // 이 스크립트를 가진 객체의 위치
     Vector3 PlayerDir; // 플레이어가 나아가는 방향
 
+    Collider2D col;
+
+    private void Awake()
+    {
+        col = GetComponent<Collider2D>();
+    }
+
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (!collision.CompareTag("Area")) // 벗어난 게 플레이어의 에리어가 아닌 경우 그냥 반환
@@ -39,7 +46,10 @@ public class Reposition : MonoBehaviour
                 break;
 
             case "Enemy":
-
+                if(col.enabled)
+                {
+                    transform.Translate(PlayerDir * 20 + new Vector3(Random.Range(-3f, 3f), Random.Range(-3f, 3f), 0));
+                }
                 break;
         }
     }
