@@ -9641,6 +9641,17 @@ MonoBehaviour:
   - {fileID: 1223533641}
   - {fileID: 252990312}
   - {fileID: 465265421}
+  SP_Data:
+  - SpriteType: 0
+    SpawnDelay: 2
+    HP: 100
+    MonsterSpeed: 1.2
+  - SpriteType: 1
+    SpawnDelay: 1
+    HP: 120
+    MonsterSpeed: 2
+  Level: 0
+  LevelUpTimer: 10
 --- !u!1 &1422985787
 GameObject:
   m_ObjectHideFlags: 0
@@ -14085,7 +14096,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prefabs:
   - {fileID: 7278245255412837490, guid: 09fdbf0752819fb48bb8b2bdd97a5604, type: 3}
-  - {fileID: 5943354133048172497, guid: 902b412ca4eab5d4eb77dc749aa1fac5, type: 3}
 --- !u!1 &1829654720
 GameObject:
   m_ObjectHideFlags: 0
@@ -18624,6 +18634,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   om: {fileID: 1828525303}
   Player: {fileID: 0}
+  GameTime: 0
+  MaxGameTime: 60
+  GameEnd: 0
 --- !u!1 &2074763647
 GameObject:
   m_ObjectHideFlags: 0

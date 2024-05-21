@@ -5,11 +5,16 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
     [SerializeField] float MoveSpeed;
+    [SerializeField] float HP;
+    [SerializeField] float MaxHP;
+    [SerializeField] RuntimeAnimatorController[] RAC;
+
     public static Rigidbody2D Target;
 
     bool IsDead;
 
     Rigidbody2D rb;
+    Animator anim;
     SpriteRenderer sr;
 
     Vector2 DirVec;
@@ -18,6 +23,7 @@ public class EnemyController : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
         sr = GetComponent<SpriteRenderer>();
     }
 
@@ -53,5 +59,18 @@ public class EnemyController : MonoBehaviour
     public void OnSpawned()
     {
         Target = GameManager.Instance.Player.GetComponent<Rigidbody2D>();
+
+        // IsLive가 강의중 쓰이지만 여기선 IsDead 사용중이라 우선 논외
+        HP = MaxHP;
+    }
+
+    public void Init(SpawnData Data)
+    {
+        anim.runtimeAnimatorController = RAC[Data.SpriteType];
+        // 애니메이터의 런타임 애니메이터 컨트롤러 정보를 우리가 사전에 정의한 RAC[데이터.스프라이트 타입] 인덱스의 정보로 저장한다
+
+        MoveSpeed = Data.MonsterSpeed;
+        MaxHP = Data.HP;
+        HP = Data.HP;
     }
 }
