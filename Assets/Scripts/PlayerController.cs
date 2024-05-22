@@ -81,7 +81,7 @@ public class PlayerController : MonoBehaviour
 
     void OnJump()
     {
-
+        Weapon.Instance.LevelUp(Weapon.Instance.Damage+5);
     }
 
     void UpdateAnimation()

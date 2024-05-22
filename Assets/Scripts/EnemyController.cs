@@ -73,4 +73,27 @@ public class EnemyController : MonoBehaviour
         MaxHP = Data.HP;
         HP = Data.HP;
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.CompareTag("Bullet"))
+        {
+            HP -= collision.GetComponent<Bullet>().Damage;
+
+            if(HP > 0)
+            {
+                // Hit Reaction
+            }
+            else
+            {
+                OnDead();
+            }
+        }
+    }
+
+    void OnDead()
+    {
+        IsDead = true;
+        gameObject.SetActive(false);
+    }
 }
