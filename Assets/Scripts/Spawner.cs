@@ -31,7 +31,6 @@ public class Spawner : MonoBehaviour
         if (Timer > (SP_Data[Level].SpawnDelay)) // SpawnData의 현재 레벨만큼의 인덱스 정보에 있는 스폰 딜레이 참조
         {
             SelectMonster();
-
             Timer = 0;
         }
     }

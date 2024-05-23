@@ -9,9 +9,10 @@ public class EnemyController : MonoBehaviour
     [SerializeField] float MaxHP;
     [SerializeField] RuntimeAnimatorController[] RAC;
 
-    public Rigidbody2D Target;
+    [SerializeField] Rigidbody2D Target;
+    Collider2D col;
 
-    bool IsDead;
+    public bool IsDead;
 
     Rigidbody2D rb;
     Animator anim;
@@ -20,35 +21,38 @@ public class EnemyController : MonoBehaviour
     Vector2 DirVec;
     Vector2 NextVec;
 
+    WaitForFixedUpdate Wait;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         sr = GetComponent<SpriteRenderer>();
-
-        OnSpawned();
+        Wait = new WaitForFixedUpdate();
+        col = GetComponent<Collider2D>();
     }
 
     private void Start()
     {
-
+        OnSpawned();
     }
 
     private void FixedUpdate()
     {
-        if (IsDead)
-            return;
+        if (IsDead || anim.GetCurrentAnimatorStateInfo(0).IsName("Hit"))
+            return; // anim.GetCurrentAnimatorStateInfo(0).IsName("Hit")은 현재 애니메이터의 정보를 가져오는데, 매게변수로 준 숫자는 애니메이터의 레이어 넘버이다.
+        // 이 예제의 경우 레이어는 베이스 하나 뿐으로, 가장 첫번쨰 인덱스인 0을 주고, 그 중 Hit의 정보를 가져온다.
 
         DirVec = Target.position - rb.position;
         NextVec = DirVec.normalized * MoveSpeed * Time.fixedDeltaTime;
 
-        rb.velocity = Vector2.zero;
         rb.MovePosition(NextVec + rb.position);
+        rb.velocity = Vector2.zero;
     }
 
     private void Update()
     {
-        
+
     }
 
     private void LateUpdate()
@@ -67,7 +71,11 @@ public class EnemyController : MonoBehaviour
     {
         Target = GameManager.Instance.Player.GetComponent<Rigidbody2D>();
 
-        // IsLive가 강의중 쓰이지만 여기선 IsDead 사용중이라 우선 논외
+        IsDead = false;
+        col.enabled = true;
+        rb.simulated = true;
+        sr.sortingOrder = 3;
+        anim.SetBool("Dead", false);
         HP = MaxHP;
     }
 
@@ -83,24 +91,43 @@ public class EnemyController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.CompareTag("Bullet"))
+        if(collision.CompareTag("Bullet") || !IsDead)
         {
             HP -= collision.GetComponent<Bullet>().Damage;
+            StartCoroutine(KnockBack());
 
             if(HP > 0)
             {
                 // Hit Reaction
+                anim.SetTrigger("Hit");
             }
             else
             {
-                OnDead();
+                IsDead = true;
+                col.enabled = false;
+                rb.simulated = false;
+                sr.sortingOrder = 2;
+                anim.SetBool("Dead", true);
+
+                GameManager.Instance.KillCount++;
+                GameManager.Instance.GetExp();
             }
         }
     }
 
+    IEnumerator KnockBack()
+    {
+        yield return Wait; // 다음 하나의 물리 프레임 쉬기
+        Vector3 PlayerPos = GameManager.Instance.Player.transform.position;
+        Vector3 DirVec = transform.position;
+
+        rb.AddForce(DirVec.normalized * 3, ForceMode2D.Impulse);
+    }
+
     void OnDead()
     {
-        IsDead = true;
         gameObject.SetActive(false);
+
+        OnSpawned();
     }
 }
