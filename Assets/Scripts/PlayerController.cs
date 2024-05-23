@@ -8,8 +8,8 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     [NonSerialized] public Vector2 InputVector;
-    float Hori;
-    float Vert;
+
+    public Scanner scanner;
 
     // Character Value
     [SerializeField] float MoveSpeed;
@@ -24,13 +24,12 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
+        scanner = GetComponent<Scanner>();
     }
 
     void Start()
     {
         GameManager.Instance.Player = this;
-
-        EnemyController.Target = GameManager.Instance.Player.rb;
     }
 
 

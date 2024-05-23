@@ -9,7 +9,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] float MaxHP;
     [SerializeField] RuntimeAnimatorController[] RAC;
 
-    public static Rigidbody2D Target;
+    public Rigidbody2D Target;
 
     bool IsDead;
 
@@ -25,23 +25,30 @@ public class EnemyController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         sr = GetComponent<SpriteRenderer>();
+
+        OnSpawned();
     }
 
     private void Start()
     {
-        
+
     }
 
     private void FixedUpdate()
     {
-        if(IsDead)
+        if (IsDead)
             return;
 
         DirVec = Target.position - rb.position;
         NextVec = DirVec.normalized * MoveSpeed * Time.fixedDeltaTime;
 
-        rb.MovePosition(NextVec + rb.position);
         rb.velocity = Vector2.zero;
+        rb.MovePosition(NextVec + rb.position);
+    }
+
+    private void Update()
+    {
+        
     }
 
     private void LateUpdate()

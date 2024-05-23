@@ -9341,7 +9341,7 @@ MonoBehaviour:
   ID: 0
   PrefabID: 1
   Damage: 20
-  Count: 1
+  Count: 0
   Speed: 0
 --- !u!1 &914270537
 GameObject:
@@ -9694,7 +9694,7 @@ MonoBehaviour:
   - SpriteType: 0
     SpawnDelay: 2
     HP: 100
-    MonsterSpeed: 1.2
+    MonsterSpeed: 1.5
   - SpriteType: 1
     SpawnDelay: 1
     HP: 120
@@ -14146,6 +14146,7 @@ MonoBehaviour:
   Prefabs:
   - {fileID: 7278245255412837490, guid: 09fdbf0752819fb48bb8b2bdd97a5604, type: 3}
   - {fileID: 5170095601617277345, guid: 9323c804214761b46aa610ed9ccb0178, type: 3}
+  - {fileID: 1399570580332906299, guid: c027812264f15ca4aa316607b790ff87, type: 3}
 --- !u!1 &1829654720
 GameObject:
   m_ObjectHideFlags: 0
@@ -18638,6 +18639,23 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &1955572263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1955572251}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e620da4d552ea2e47a04c60d1d0fef07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ScanRange: 5
+  TargetLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  NearestTarget: {fileID: 0}
 --- !u!1 &1971626961
 GameObject:
   m_ObjectHideFlags: 0
@@ -18718,6 +18736,55 @@ Transform:
   m_Father: {fileID: 204197621}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2099684146
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2099684147}
+  - component: {fileID: 2099684148}
+  m_Layer: 0
+  m_Name: Weapon 1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2099684147
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2099684146}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 563163055}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2099684148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2099684146}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ba41bc3a2edf804f9bc836a48a5534e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ID: 1
+  PrefabID: 2
+  Damage: 15
+  Count: 0
+  Speed: 0
 --- !u!1 &2119104985
 GameObject:
   m_ObjectHideFlags: 0
@@ -18830,8 +18897,14 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3461070690785669041, guid: 05c412d4358fc424dbca597823b332ce, type: 3}
       insertIndex: -1
       addedObject: {fileID: 864791525}
+    - targetCorrespondingSourceObject: {fileID: 3461070690785669041, guid: 05c412d4358fc424dbca597823b332ce, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2099684147}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3461070690785669040, guid: 05c412d4358fc424dbca597823b332ce, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1955572257}
+    - targetCorrespondingSourceObject: {fileID: 3461070690785669040, guid: 05c412d4358fc424dbca597823b332ce, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1955572263}
   m_SourcePrefab: {fileID: 100100000, guid: 05c412d4358fc424dbca597823b332ce, type: 3}

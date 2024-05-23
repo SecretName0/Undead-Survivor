@@ -9,12 +9,18 @@ public class Weapon : MonoBehaviour
     public int ID;
     public int PrefabID;
     public float Damage;
-    public int Count; // 갯수
-    public float Speed; // 회전 속도
+    public int Count; // 갯수, 관통력
+    public float Speed; // 회전 속도, 연사 속도
+
+    float Timer;
+
+    PlayerController Player;
 
     private void Awake()
     {
         Instance = this;
+
+        Player = GetComponentInParent<PlayerController>();
     }
 
     private void Start()
@@ -24,7 +30,7 @@ public class Weapon : MonoBehaviour
 
     private void Update()
     {
-        RotateSet();
+        AttackSet();
     }
 
     public void LevelUp(float Damage)
@@ -49,7 +55,7 @@ public class Weapon : MonoBehaviour
                 break;
 
             default:
-
+                Speed = 0.3f;
                 break;
         }
     }
@@ -82,22 +88,46 @@ public class Weapon : MonoBehaviour
             ChaseWeapon.Rotate(RotVec);
             ChaseWeapon.Translate(ChaseWeapon.up * 1.5f, Space.World); // 체이스 웨폰의 위쪽(즉 플레이어의 위치로부터 윗 방향으로 1.5만큼 거리에 배치), 월드 좌표
 
-            ChaseWeapon.GetComponent<Bullet>().Init(Damage, -1); // 근접 무기는 그냥 계속 관통하는 것이 기본 설정이기 때문에 -1값을 줌(굳이 -1이 아니어도 되기는 함)
+            ChaseWeapon.GetComponent<Bullet>().Init(Damage, -1, Vector3.zero); // 근접 무기는 그냥 계속 관통하는 것이 기본 설정이기 때문에 -1값을 줌(굳이 -1이 아니어도 되기는 함)
         }
     }
 
-    void RotateSet()
+    void AttackSet()
     {
         switch (ID)
         {
-            case 0:
+            case 0: // 근접무기 회전 설정
                 transform.Rotate(Vector3.back * Speed * Time.deltaTime);
                 // Vector3.back * 양수 or Vector3.forward * 음수
                 break;
 
-            default:
+            default: // 원거리 무기 발사 설정
+                Timer += Time.deltaTime;
 
+                if (Timer > Speed)
+                {
+                    Fire();
+
+                    Timer = 0;
+                }
                 break;
         }
+    }
+
+    void Fire()
+    {
+        if (!Player.scanner.NearestTarget)
+            return;
+
+        Vector3 TargetPos = Player.scanner.NearestTarget.position;
+        Vector3 Dir = TargetPos - transform.position;
+        Dir = Dir.normalized;
+
+        Transform bullet = GameManager.Instance.om.GetSpawnTarget(PrefabID).transform;
+        bullet.position = transform.position;
+        bullet.rotation = Quaternion.FromToRotation(Vector3.up, Dir); // 지정된 축을 중심으로 목표를 향해 객체를 회전시키는 함수
+        // Vector3.up 즉, z축을 기준으로 Dir쪽으로 향하도록 회전
+
+        bullet.GetComponent<Bullet>().Init(Damage, Count, Dir);
     }
 }
