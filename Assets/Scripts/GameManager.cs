@@ -22,6 +22,8 @@ public class GameManager : MonoBehaviour
 
     // Game Rule Board
     [Header("Game Rule Board")]
+    public int HP;
+    public int Max_HP = 100;
     public int NowLevel;
     public int KillCount;
     public int Exp;
@@ -30,6 +32,11 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+    }
+
+    private void Start()
+    {
+        HP = Max_HP;
     }
 
     private void Update()
