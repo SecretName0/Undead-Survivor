@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-    public static Weapon Instance;
     public int ID;
     public int PrefabID;
     public float Damage;
@@ -18,14 +17,13 @@ public class Weapon : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
-
-        Player = GetComponentInParent<PlayerController>();
+        //Player = GetComponentInParent<PlayerController>();
+        Player = GameManager.Instance.Player;
     }
 
     private void Start()
     {
-        Init();
+
     }
 
     private void Update()
@@ -33,19 +31,42 @@ public class Weapon : MonoBehaviour
         AttackSet();
     }
 
-    public void LevelUp(float Damage)
+    public void LevelUp(float Damage, int Count)
     {
         this.Damage = Damage;
-        Count++;
+        this.Count = Count;
 
-        if(ID == 0)
+        if (ID == 0)
         {
             WeaponPlaced();
         }
+
+        Player.BroadcastMessage("ApplyGear", SendMessageOptions.DontRequireReceiver);
     }
 
-    public void Init()
+    public void Init(ItemData data)
     {
+        // Basic Set
+        name = "Weapon " + data.ItemID;
+        transform.parent = Player.transform;
+        transform.localPosition = Vector3.zero;
+
+        // Property Set
+        ID = data.ItemID;
+        Damage = data.BaseDamage;
+        Count = data.BasePerCount;
+
+        for(int i = 0; i < GameManager.Instance.om.Prefabs.Length; i++)
+        {
+            if(data.Projectile == GameManager.Instance.om.Prefabs[i])
+            {
+                PrefabID = i;
+
+                break;
+            }
+            // 오브젝트 매니저의 프리팹 배열에서 만약 아이템 데이터의 발사체 변수와 동일한 항목이 발견되면 프리팹 아이디를 해당 인덱스로 지정하고 탈출
+        }
+
         switch(ID)
         {
             case 0:
@@ -58,6 +79,10 @@ public class Weapon : MonoBehaviour
                 Speed = 0.3f;
                 break;
         }
+
+        Player.BroadcastMessage("ApplyGear", SendMessageOptions.DontRequireReceiver); // SendMessageOptions.DontRequireReceiver: 무조건 그 항목을 가지고 있어야 하는 것은 아니다.
+        // 해당 예시에서는 크게 필요한 것은 아니나, 만약 능력을 강화시켜주는 기어가 존재한다면, 그때마다 새롭게 어플라이 기어라는 함수를 가진
+        // 모든 것들에게 메세지를 전달하여 이를 실행하도록 할 필요가 있다.
     }
 
     void WeaponPlaced()

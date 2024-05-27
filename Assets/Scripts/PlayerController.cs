@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
     public Scanner scanner;
 
     // Character Value
-    [SerializeField] float MoveSpeed;
+    public float MoveSpeed;
 
     // Components
     [NonSerialized] public Rigidbody2D rb;
@@ -80,7 +80,7 @@ public class PlayerController : MonoBehaviour
 
     void OnJump()
     {
-        Weapon.Instance.LevelUp(Weapon.Instance.Damage+5);
+
     }
 
     void UpdateAnimation()
