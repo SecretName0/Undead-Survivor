@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour
 
     public Scanner scanner;
 
+    public Hands[] Hand;
+
     // Character Value
     public float MoveSpeed;
 
@@ -25,6 +27,9 @@ public class PlayerController : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
         scanner = GetComponent<Scanner>();
+
+        Hand = GetComponentsInChildren<Hands>(true);
+        // 컴포넌트가 비활성화 되어 있으면 걸러지나, 인자값으로 true를 전달해주면 비활성화 대상도 저장된다.
     }
 
     void Start()

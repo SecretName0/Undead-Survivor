@@ -80,6 +80,11 @@ public class Weapon : MonoBehaviour
                 break;
         }
 
+        // Hands Set
+        Hands Hand = Player.Hand[(int)data.ItemType];
+        Hand.sr.sprite = data.Hand;
+        Hand.gameObject.SetActive(true);
+
         Player.BroadcastMessage("ApplyGear", SendMessageOptions.DontRequireReceiver); // SendMessageOptions.DontRequireReceiver: 무조건 그 항목을 가지고 있어야 하는 것은 아니다.
         // 해당 예시에서는 크게 필요한 것은 아니나, 만약 능력을 강화시켜주는 기어가 존재한다면, 그때마다 새롭게 어플라이 기어라는 함수를 가진
         // 모든 것들에게 메세지를 전달하여 이를 실행하도록 할 필요가 있다.
