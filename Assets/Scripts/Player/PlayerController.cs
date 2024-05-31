@@ -40,6 +40,9 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!GameManager.Instance.TimeLive)
+            return;
+
         /* 물리 이동의 기본적인 논리 순서
         // 힘을 가함
         rb.AddForce(InputVector);
@@ -57,11 +60,17 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (!GameManager.Instance.TimeLive)
+            return;
+
         UpdateAnimation();
     }
 
     private void LateUpdate()
     {
+        if (!GameManager.Instance.TimeLive)
+            return;
+
         if (InputVector.x < 0)
         {
             sr.flipX = true;

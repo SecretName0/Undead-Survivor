@@ -12,11 +12,14 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     public ObjectManager om;
     public PlayerController Player;
+    public LevelSystemUI LevelUI;
 
     // Game Time
     [Header("Game Timer")]
     public float GameTime;
     public float MaxGameTime;
+
+    public bool TimeLive;
 
     [SerializeField] bool GameEnd;
 
@@ -37,10 +40,18 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         HP = Max_HP;
+
+        TimeLive = true;
+
+        // 임시 스크립트
+        LevelUI.Select(0);
     }
 
     private void Update()
     {
+        if (!TimeLive)
+            return;
+
         if(!GameEnd)
             GameTime += Time.deltaTime;
 
@@ -55,11 +66,27 @@ public class GameManager : MonoBehaviour
     {
         Exp++;
 
-        if (Exp >= NextExp[NowLevel])
+        if (Exp >= NextExp[Mathf.Min(NowLevel, NextExp.Length -1)])
         {
+            // 경험치가 다음 경험치 배열의 값 이상일 경우
+            // 다음 경험치의 조건: 둘 중 작은 값을 반환 [1. 현재 레벨을 정보로한 인덱스] [2. 현재 경험치 배열의 길이보다 하나 작은 값(레벨이 허용 범위를 초과하면 터질 수 있음)]
             NowLevel++;
-
             Exp = 0;
+            LevelUI.ShowUI();
         }
+    }
+
+    public void TimeStop()
+    {
+        TimeLive = false;
+
+        Time.timeScale = 0; // timeScale: 유니티의 시간 속도 (배율) [기본 값은 1]
+    }
+    
+    public void TimeResume()
+    {
+        TimeLive = true;
+
+        Time.timeScale = 1;
     }
 }

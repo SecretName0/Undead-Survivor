@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,7 +25,7 @@ public class HUD : MonoBehaviour
         {
             case InfoType.Exp:
                 float CurExp = GameManager.Instance.Exp;
-                float MaxExp = GameManager.Instance.NextExp[GameManager.Instance.NowLevel];
+                float MaxExp = GameManager.Instance.NextExp[Mathf.Min(GameManager.Instance.NowLevel, GameManager.Instance.NextExp.Length - 1)];
 
                 MySlider.value = CurExp / MaxExp;
                 break;

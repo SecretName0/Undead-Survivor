@@ -39,6 +39,9 @@ public class EnemyController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!GameManager.Instance.TimeLive)
+            return;
+
         if (IsDead || anim.GetCurrentAnimatorStateInfo(0).IsName("Hit"))
             return; // anim.GetCurrentAnimatorStateInfo(0).IsName("Hit")은 현재 애니메이터의 정보를 가져오는데, 매게변수로 준 숫자는 애니메이터의 레이어 넘버이다.
         // 이 예제의 경우 레이어는 베이스 하나 뿐으로, 가장 첫번쨰 인덱스인 0을 주고, 그 중 Hit의 정보를 가져온다.
@@ -52,11 +55,15 @@ public class EnemyController : MonoBehaviour
 
     private void Update()
     {
-
+        if (!GameManager.Instance.TimeLive)
+            return;
     }
 
     private void LateUpdate()
     {
+        if (!GameManager.Instance.TimeLive)
+            return;
+
         if (IsDead)
             return;
 

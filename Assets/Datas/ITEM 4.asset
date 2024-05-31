@@ -15,7 +15,7 @@ MonoBehaviour:
   ItemType: 4
   ItemID: 4
   ItemName: "\uC5D0\uB108\uC9C0 \uC74C\uB8CC"
-  ItemDesc: 
+  ItemDesc: "\uCCB4\uB825 \uC804\uCCB4 \uD68C\uBCF5"
   ItemIcon: {fileID: 927338625, guid: d71a3dc7aa20fad4f9a99fc76a9254ba, type: 3}
   BaseDamage: 0
   BasePerCount: 0
@@ -27,3 +27,4 @@ MonoBehaviour:
   - 0
   PerCount: 0000000000000000000000000000000000000000
   Projectile: {fileID: 0}
+  Hand: {fileID: 0}

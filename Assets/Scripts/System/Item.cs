@@ -13,6 +13,8 @@ public class Item : MonoBehaviour
 
     Image Icon;
     Text TextLevel;
+    Text TextName;
+    Text TextDesc;
 
     private void Awake()
     {
@@ -21,11 +23,39 @@ public class Item : MonoBehaviour
 
         Text[] Texts = GetComponentsInChildren<Text>();
         TextLevel = Texts[0];
+        TextName = Texts[1];
+        TextDesc = Texts[2];
+        // 배열의 순번은 인스펙터에서 배열이 정리되어 있는 순서에 따른다.
+
+        TextName.text = ItemInfo.ItemName;
     }
 
-    private void LateUpdate()
+    private void OnEnable()
     {
         TextLevel.text = "LV." + Level;
+
+        switch(ItemInfo.ItemType)
+        {
+            case ItemData.ItemTypes.Melee:
+            case ItemData.ItemTypes.Range:
+
+                TextDesc.text = string.Format(ItemInfo.ItemDesc, ItemInfo.Damages[Level] *100, ItemInfo.PerCount[Level]);
+                // 설명창 세팅 = 아이템 설명 기재, 대미지 기입(표기상 n%로 출력할 것이기 때문에 수치를 백분율화 해준다.), 특수 효과 기입
+                break;
+
+            case ItemData.ItemTypes.Glove:
+            case ItemData.ItemTypes.Shoe:
+
+                TextDesc.text = string.Format(ItemInfo.ItemDesc, ItemInfo.Damages[Level] * 100);
+
+                break;
+
+            default:
+
+                TextDesc.text = string.Format(ItemInfo.ItemDesc);
+                break;
+        }
+
     }
 
     public void OnClick()

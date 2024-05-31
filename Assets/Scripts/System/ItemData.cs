@@ -14,7 +14,11 @@ public class ItemData : ScriptableObject
     public ItemTypes ItemType;
     public int ItemID;
     public string ItemName;
+
+    [TextArea]
     public string ItemDesc; // 아이템의 설명
+    // TextArea를 하면 인스펙터에서 스트링을 저장하기 위한 넓은 칸이 제공됨
+
     public Sprite ItemIcon;
 
     [Header("# Level Data")]
