@@ -109,4 +109,27 @@ public class PlayerController : MonoBehaviour
             anim.SetBool("IsMoving", false);
         }
     }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (!GameManager.Instance.TimeLive)
+            return;
+
+        GameManager.Instance.HP -= Time.deltaTime * 10;
+
+        if(GameManager.Instance.HP < 0)
+        {   
+            // i가 2인 이유: 플레이어 계층 구조상 본체(0) 그림자(1)까지는 필요하지만 다음부터는 없어도 되기때문에 2번 부터
+            // childCount: 자식 오브젝트의 갯수
+            for(int i = 2; i < transform.childCount; i++)
+            {
+                // GetChild: 주어진 인덱스의 자식 오브젝트를 반환하는 함수
+                transform.GetChild(i).gameObject.SetActive(false);
+            }
+
+            anim.SetBool("IsDead", true);
+
+            GameManager.Instance.GameOver();
+        }
+    }
 }

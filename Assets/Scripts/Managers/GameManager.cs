@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,6 +14,9 @@ public class GameManager : MonoBehaviour
     public ObjectManager om;
     public PlayerController Player;
     public LevelSystemUI LevelUI;
+    public Result UIResult;
+
+    public GameObject EnemyCleaner;
 
     // Game Time
     [Header("Game Timer")]
@@ -25,8 +29,8 @@ public class GameManager : MonoBehaviour
 
     // Game Rule Board
     [Header("Game Rule Board")]
-    public int HP;
-    public int Max_HP = 100;
+    public float HP;
+    public float Max_HP = 100;
     public int NowLevel;
     public int KillCount;
     public int Exp;
@@ -37,14 +41,52 @@ public class GameManager : MonoBehaviour
         Instance = this;
     }
 
-    private void Start()
+    public void GameStart()
     {
         HP = Max_HP;
 
-        TimeLive = true;
+        TimeResume();
 
         // 임시 스크립트
         LevelUI.Select(0);
+    }
+
+    public void GameOver()
+    {
+        StartCoroutine(GameOverRoutine());
+    }
+
+    IEnumerator GameOverRoutine()
+    {
+        TimeLive = false;
+
+        yield return new WaitForSeconds(1);
+
+        UIResult.gameObject.SetActive(true);
+        UIResult.Lose();
+        TimeStop();
+    }
+
+    public void GameWin()
+    {
+        StartCoroutine(GameWinRoutine());
+    }
+
+    IEnumerator GameWinRoutine()
+    {
+        TimeLive = false;
+        EnemyCleaner.SetActive(true);
+
+        yield return new WaitForSeconds(1);
+
+        UIResult.gameObject.SetActive(true);
+        UIResult.Win();
+        TimeStop();
+    }
+
+    public void GoTitle()
+    {
+        SceneManager.LoadScene(0);
     }
 
     private void Update()
@@ -59,11 +101,15 @@ public class GameManager : MonoBehaviour
         {
             GameTime = MaxGameTime;
             GameEnd = true;
+            GameWin();
         }
     }
 
     public void GetExp()
     {
+        if (!TimeLive)
+            return;
+
         Exp++;
 
         if (Exp >= NextExp[Mathf.Min(NowLevel, NextExp.Length -1)])
