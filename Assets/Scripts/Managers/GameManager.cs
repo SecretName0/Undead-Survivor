@@ -18,6 +18,9 @@ public class GameManager : MonoBehaviour
 
     public GameObject EnemyCleaner;
 
+    [Header("Player Data")]
+    public int PlayerID;
+
     // Game Time
     [Header("Game Timer")]
     public float GameTime;
@@ -41,14 +44,17 @@ public class GameManager : MonoBehaviour
         Instance = this;
     }
 
-    public void GameStart()
+    public void GameStart(int id)
     {
+        PlayerID = id;
+
         HP = Max_HP;
 
-        TimeResume();
+        Player.gameObject.SetActive(true);
 
+        TimeResume();
         // 임시 스크립트
-        LevelUI.Select(0);
+        LevelUI.Select(id % 2);
     }
 
     public void GameOver()
