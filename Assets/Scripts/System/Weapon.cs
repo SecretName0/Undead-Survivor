@@ -53,8 +53,8 @@ public class Weapon : MonoBehaviour
 
         // Property Set
         ID = data.ItemID;
-        Damage = data.BaseDamage;
-        Count = data.BasePerCount;
+        Damage = data.BaseDamage * Character.BonusDamage;
+        Count = data.BasePerCount; // + Character.BonusCount
 
         for(int i = 0; i < GameManager.Instance.om.Prefabs.Length; i++)
         {
@@ -70,13 +70,13 @@ public class Weapon : MonoBehaviour
         switch(ID)
         {
             case 0:
-                Speed = 150; // 토탈 값이 마이너스여야 시계 방향으로 회전함 (Rotate 참조)
+                Speed = 150 * Character.BonusAttackSpeed; // 토탈 값이 마이너스여야 시계 방향으로 회전함 (Rotate 참조)
 
                 WeaponPlaced();
                 break;
 
             default:
-                Speed = 0.3f;
+                Speed = 0.3f * Character.BonusAttackRate;
                 break;
         }
 

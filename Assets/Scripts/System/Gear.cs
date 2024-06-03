@@ -50,12 +50,14 @@ public class Gear : MonoBehaviour
             switch(weapon.ID)
             {
                 case 0:
+                    float Speed = 150 * Character.BonusAttackSpeed;
                     weapon.Speed = 150 + (150 * Rate);
-
+                    // 근접 무기
                     break;
 
                 default:
-                    weapon.Speed = 0.5f * (1f - Rate);
+                    Speed = 0.5f * Character.BonusAttackRate;
+                    weapon.Speed = Speed * (1f - Rate);
                     // 1에서 Rate뺀 값이 작으면 작을수록 기본 값 0.5에 그 수를 곱할 수록 숫자가 낮아져 속도가 빨라지게 된다
 
                     break;
@@ -65,7 +67,7 @@ public class Gear : MonoBehaviour
 
     void SpeedUp()
     {
-        float MoveSpeed = 3;
+        float MoveSpeed = 3 * Character.BonusSpeed;
         GameManager.Instance.Player.MoveSpeed = MoveSpeed + (MoveSpeed * Rate);
     }
 }

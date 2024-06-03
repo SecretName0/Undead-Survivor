@@ -35,6 +35,8 @@ public class PlayerController : MonoBehaviour
 
     private void OnEnable()
     {
+        MoveSpeed *= Character.BonusSpeed;
+
         anim.runtimeAnimatorController = rc[GameManager.Instance.PlayerID];
     }
 
